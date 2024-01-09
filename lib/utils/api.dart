@@ -63,4 +63,25 @@ class Api {
       return(res.reasonPhrase);
     }
   }
+
+  getUsers(token) async {
+    var headersList = {
+      'Accept': '*/*',
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Authorization': 'Bearer $token'
+    };
+    var url = Uri.parse('https://symfony-instawish.formaterz.fr/api/users');
+
+    var req = http.Request('GET', url);
+    req.headers.addAll(headersList);
+
+    var res = await req.send();
+    final resBody = await res.stream.bytesToString();
+
+    if (res.statusCode >= 200 && res.statusCode < 300) {
+      return(resBody);
+    } else {
+      return(res.reasonPhrase);
+    }
+  }
 }

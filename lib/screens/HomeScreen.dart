@@ -22,6 +22,14 @@ class HomeScreenState extends State<HomeScreen> {
       return post;
     }
 
+    Future<dynamic> getUsers() async {
+      var token = await Api().getToken();
+      var data = await Api().getUsers(token);
+      var users = jsonDecode(data);     
+
+      return users;
+    }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +64,7 @@ class HomeScreenState extends State<HomeScreen> {
 
       //////////// Body //////////////////
       body: FutureBuilder(
-        future: getPost(),
+        future: Future.wait([getPost(), getUsers()]),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
 
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -69,8 +77,10 @@ class HomeScreenState extends State<HomeScreen> {
             
           } else {
             // Utiliser les données récupérées dans le Scaffold
-            var post = snapshot.data;
-            print(post);
+            var post = snapshot.data[0];
+            var users = snapshot.data[1].values;
+            // print(post);
+            // print(users["username"]);
             return Column(
               children: [
                 //////// stories /////////
@@ -81,12 +91,12 @@ class HomeScreenState extends State<HomeScreen> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      for (var i = 0; i < 25; i++)
+                      for (var user in users) 
                         Column(
                           children: [
                             UserAvatar(userAvatar: "avatar_deux.jpg", bg: true),
                             Text(
-                              "Avatar $i",
+                              user["username"],
                               style: TextStyle(fontWeight: FontWeight.bold),
                             )
                           ],
@@ -106,9 +116,9 @@ class HomeScreenState extends State<HomeScreen> {
                         Column(
                           children: [
                             Post(
-                              username: post[i]["createdBy"]["email"],
+                              username: post[i]["createdBy"]["username"],
                               // userAvatar: post[i]["createdBy"]["imageUrl"],
-                              postText: post[i]["description"],
+                              postDescription: post[i]["description"],
                               postImage: post[i]["imageUrl"],
                             ),
                           ],

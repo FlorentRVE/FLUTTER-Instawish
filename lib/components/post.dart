@@ -4,14 +4,14 @@ import 'package:instawish/components/user_avatar.dart';
 class Post extends StatelessWidget {
   final String username;
   // final String userAvatar;
-  final String postText;
+  final String postDescription;
   final String postImage;
 
   const Post({
     Key? key,
     required this.username,
     // required this.userAvatar,
-    required this.postText,
+    required this.postDescription,
     required this.postImage,
   }) : super(key: key);
 
@@ -21,6 +21,7 @@ class Post extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 20),
       child: Column(
         children: [
+          // entête du post
           Container(
             decoration: BoxDecoration(color: Colors.red),
             child: SizedBox(
@@ -67,6 +68,7 @@ class Post extends StatelessWidget {
               ]),
             ),
           ),
+          // image
           Container(
             height: 300,
             width: 400,
@@ -75,16 +77,18 @@ class Post extends StatelessWidget {
             ),
             child: Image.network("https://symfony-instawish.formaterz.fr$postImage"),
           ),
+          // description
           Container(
             height: 30,
             width: 400,
             decoration: BoxDecoration(color: Colors.yellow),
             child: Center(
               child: Text(
-                postText,
+                postDescription,
               ),
             ),
           ),
+          // boutton d'interaction
           Container(
             height: 70,
             width: 400,
@@ -139,6 +143,7 @@ class Post extends StatelessWidget {
               ],
             ),
           ),
+          // Like et date du post
           Container(
             height: 30,
             width: 400,
