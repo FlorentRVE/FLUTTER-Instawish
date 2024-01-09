@@ -17,8 +17,7 @@ class HomeScreenState extends State<HomeScreen> {
     Future<dynamic> getPost() async {
       var token = await Api().getToken();
       var data = await Api().getData(token);
-
-      var post = jsonDecode(data);
+      var post = jsonDecode(data);     
 
       return post;
     }
@@ -71,7 +70,7 @@ class HomeScreenState extends State<HomeScreen> {
           } else {
             // Utiliser les données récupérées dans le Scaffold
             var post = snapshot.data;
-            print(post[0]);
+            print(post);
             return Column(
               children: [
                 //////// stories /////////
@@ -103,10 +102,15 @@ class HomeScreenState extends State<HomeScreen> {
                   child: ListView(
                     scrollDirection: Axis.vertical,
                     children: [
-                      for (var i = 0; i < 25; i++)
+                      for (var i = 0; i < post.length; i++)
                         Column(
                           children: [
-                            Post(),
+                            Post(
+                              username: post[i]["createdBy"]["email"],
+                              // userAvatar: post[i]["createdBy"]["imageUrl"],
+                              postText: post[i]["description"],
+                              postImage: post[i]["imageUrl"],
+                            ),
                           ],
                         ),
                     ],

@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:instawish/components/user_avatar.dart';
 
 class Post extends StatelessWidget {
+  final String username;
+  // final String userAvatar;
+  final String postText;
+  final String postImage;
+
   const Post({
-    super.key,
-  });
+    Key? key,
+    required this.username,
+    // required this.userAvatar,
+    required this.postText,
+    required this.postImage,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +47,9 @@ class Post extends StatelessWidget {
                     ),
                   ),
                   child: Container(
-                      margin: EdgeInsets.only(left: 20), child: Text("Username")),
+                    margin: EdgeInsets.only(left: 20),
+                    child: Text(username),
+                  ),
                 ),
                 Positioned(
                   left: -10,
@@ -62,7 +73,17 @@ class Post extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-            child: Image.asset("assets/avatar.jpg"),
+            child: Image.network("https://symfony-instawish.formaterz.fr$postImage"),
+          ),
+          Container(
+            height: 30,
+            width: 400,
+            decoration: BoxDecoration(color: Colors.yellow),
+            child: Center(
+              child: Text(
+                postText,
+              ),
+            ),
           ),
           Container(
             height: 70,
@@ -74,13 +95,14 @@ class Post extends StatelessWidget {
                 Container(
                   width: 100,
                   margin: EdgeInsets.only(left: 15),
-                  padding: EdgeInsets.only(top:2, bottom: 2, left: 3, right: 3),
+                  padding:
+                      EdgeInsets.only(top: 2, bottom: 2, left: 3, right: 3),
                   decoration: BoxDecoration(
                     border: Border.all(
                       width: 2,
                     ),
                     borderRadius: BorderRadius.circular(12),
-                  ) ,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
