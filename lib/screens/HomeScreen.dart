@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:instawish/components/app_bar.dart';
 import 'package:instawish/components/post.dart';
 import 'package:instawish/components/user_avatar.dart';
 import 'package:instawish/utils/api.dart';
@@ -30,9 +31,9 @@ class HomeScreenState extends State<HomeScreen> {
 
     }
 
-    Future<dynamic> getPost() async {
+    Future<dynamic> getPosts() async {
       var token = await Api().getToken();
-      var data = await Api().getData(token);
+      var data = await Api().getPosts(token);
       var post = jsonDecode(data);     
 
       return post;
@@ -58,44 +59,11 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       //////////// AppBar //////////////////
-      appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.add_a_photo, color: Colors.white),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  "InstaWish",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
-          ),
-          backgroundColor: Colors.cyan[300],
-          leading: Icon(
-            Icons.add_box,
-            color: Colors.white,
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: IconButton(
-                icon: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://symfony-instawish.formaterz.fr/images/profiles/xddriki-659bd9e1e527f453698280.jpg"),
-                ),
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.transparent), elevation: MaterialStateProperty.all(0), iconSize: MaterialStateProperty.all(0)),
-                onPressed: () {
-                  context.go('/login');
-                },
-              ),
-            ),
-          ]),
+      appBar: MyAppBar(),
 
       //////////// Body //////////////////
       body: FutureBuilder(
-        future: Future.wait([checkToken(), getPost(), getUsers(), getMe()]),
+        future: Future.wait([checkToken(), getPosts(), getUsers(), getMe()]),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
 
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -110,8 +78,7 @@ class HomeScreenState extends State<HomeScreen> {
             // Utiliser les données récupérées dans le Scaffold
             var post = snapshot.data[1];
             var users = snapshot.data[2].values;
-            var me = snapshot.data[3];
-            print(me);
+            // var me = snapshot.data[3];
             return Column(
               children: [
                 //////// stories /////////
@@ -166,3 +133,5 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+

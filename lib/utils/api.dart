@@ -41,7 +41,7 @@ class Api {
 
   }
 
-  getData(token) async {
+  getPosts(token) async {
 
     var headersList = {
       'Accept': '*/*',
@@ -61,6 +61,72 @@ class Api {
       return(resBody);
     } else {
       return(res.reasonPhrase);
+    }
+  }
+
+  getUserPost(token, id) async {
+    var headersList = {
+      'Accept': '*/*',
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Authorization': 'Bearer $token'
+    };
+    var url = Uri.parse('https://symfony-instawish.formaterz.fr/api/home/$id');
+
+    var req = http.Request('GET', url);
+    req.headers.addAll(headersList);
+
+    var res = await req.send();
+    final resBody = await res.stream.bytesToString();
+
+    if (res.statusCode >= 200 && res.statusCode < 300) {
+      return (resBody);
+    } else {
+      return (res.reasonPhrase);
+    }
+  }
+
+  getFollowing(token, id) async {
+    var headersList = {
+      'Accept': '*/*',
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Authorization': 'Bearer $token'
+    };
+    var url = Uri.parse(
+        'https://symfony-instawish.formaterz.fr/api/follow/followings/$id');
+
+
+    var req = http.Request('GET', url);
+    req.headers.addAll(headersList);
+
+    var res = await req.send();
+    final resBody = await res.stream.bytesToString();
+
+    if (res.statusCode >= 200 && res.statusCode < 300) {
+      return(resBody);
+    } else {
+      return(res.reasonPhrase);
+    }
+  }
+
+  getFollowers(token, id) async {
+    var headersList = {
+      'Accept': '*/*',
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Authorization': 'Bearer $token'
+    };
+    var url = Uri.parse(
+        'https://symfony-instawish.formaterz.fr/api/follow/followers/$id');
+
+    var req = http.Request('GET', url);
+    req.headers.addAll(headersList);
+
+    var res = await req.send();
+    final resBody = await res.stream.bytesToString();
+
+    if (res.statusCode >= 200 && res.statusCode < 300) {
+      return (resBody);
+    } else {
+      return (res.reasonPhrase);
     }
   }
 
