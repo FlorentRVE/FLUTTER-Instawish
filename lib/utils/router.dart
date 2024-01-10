@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:instawish/screens/CreatePostScreen.dart';
 import 'package:instawish/screens/HomeScreen.dart';
 import 'package:instawish/screens/LoginScreen.dart';
 import 'package:instawish/screens/ProfilScreen.dart';
@@ -26,6 +27,13 @@ final GoRouter router = GoRouter(
       path: '/profil',
       builder: (BuildContext context, GoRouterState state) {
         return const ProfilScreen();
+      },
+    ),
+
+    GoRoute(
+      path: '/createpost',
+      builder: (BuildContext context, GoRouterState state) {
+        return const CreatePostScreen();
       },
     ),
    

@@ -112,12 +112,12 @@ class ProfilScreenState extends State<ProfilScreen> {
               children: [
                 //////// Profil info /////////
                 Container(
-                  height: 150,
+                  height: 130,
                   decoration: BoxDecoration(color: const Color.fromARGB(255, 244, 244, 244)),
                   child: Row(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(left: 80, top: 25),
+                        margin: EdgeInsets.only(left: 50, top: 15),
                         child: Column(
                           children: [
                             UserAvatar(userAvatar: profil["imageUrl"], bg: false),

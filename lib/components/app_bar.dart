@@ -31,23 +31,33 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         } else {
           var selfAvatar = snapshot.data["imageUrl"];
           return AppBar(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.add_a_photo, color: Colors.white),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    "InstaWish",
-                    style: TextStyle(color: Colors.white),
+            title: GestureDetector(
+              onTap: () {
+                context.go('/');
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.add_a_photo, color: Colors.white),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      "InstaWish",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             backgroundColor: Colors.cyan[300],
-            leading: Icon(
-              Icons.add_box,
-              color: Colors.white,
+            leading: GestureDetector(
+              onTap: () {
+                context.go('/createpost');
+              },
+              child: Icon(
+                Icons.add_box,
+                color: Colors.white,
+              ),
             ),
             actions: [
               Padding(

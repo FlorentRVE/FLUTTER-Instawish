@@ -41,6 +41,35 @@ class Api {
 
   }
 
+  createPost(token, data) async {
+
+    var headersList = {
+      'Accept': '*/*',
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Authorization':
+          'Bearer $token'
+    };
+
+    var url = Uri.parse('https://symfony-instawish.formaterz.fr/api/post/add');
+
+    var body = data['description'];
+
+    var req = http.MultipartRequest('POST', url);
+    req.headers.addAll(headersList);
+    req.files.add(await http.MultipartFile.fromPath('picture', data['picture']));
+    req.fields.addAll(body);
+
+    var res = await req.send();
+    final resBody = await res.stream.bytesToString();
+
+    if (res.statusCode >= 200 && res.statusCode < 300) {
+      return(resBody);
+    }
+    else {
+      return(res.reasonPhrase);
+    }
+  }
+
   getPosts(token) async {
 
     var headersList = {
