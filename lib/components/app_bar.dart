@@ -75,7 +75,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     iconSize: MaterialStateProperty.all(0),
                   ),
                   onPressed: () {
-                    context.go('/profil');
+                    var id = snapshot.data["id"];
+                    context.go('/profil/$id');
                   },
                 ),
               ),

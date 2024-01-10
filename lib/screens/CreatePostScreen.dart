@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:instawish/components/app_bar.dart';
 import 'package:instawish/utils/api.dart';
 
 class CreatePostScreen extends StatefulWidget {
@@ -58,13 +59,21 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Créer un post'),
-      ),
+      appBar: MyAppBar(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+              padding: EdgeInsets.all(50),
+              child: Text(
+                'Créer un post',
+                style: TextStyle(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            ),
             ElevatedButton(
               onPressed: getImage,
               child: Text('Importer une photo'),

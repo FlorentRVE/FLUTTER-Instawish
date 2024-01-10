@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-// import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Api {
@@ -201,4 +200,48 @@ class Api {
       return(res.reasonPhrase);
     }
   }
+
+  getUser(token, id) async {
+      var headersList = {
+        'Accept': '*/*',
+        'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+        'Authorization': 'Bearer $token'
+      };
+      var url = Uri.parse('https://symfony-instawish.formaterz.fr/api/user/$id');
+
+
+      var req = http.Request('GET', url);
+      req.headers.addAll(headersList);
+
+      var res = await req.send();
+      final resBody = await res.stream.bytesToString();
+
+      if (res.statusCode >= 200 && res.statusCode < 300) {
+        return (resBody);
+      } else {
+        return (res.reasonPhrase);
+      }
+  }
+
+  follow(token, id) async {
+    var headersList = {
+      'Accept': '*/*',
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Authorization': 'Bearer $token'
+    };
+    var url = Uri.parse('https://symfony-instawish.formaterz.fr/api/follow/add/$id');
+
+    var req = http.Request('POST', url);
+    req.headers.addAll(headersList);
+
+    var res = await req.send();
+    final resBody = await res.stream.bytesToString();
+
+    if (res.statusCode >= 200 && res.statusCode < 300) {
+      return(resBody);
+    }
+    else {
+      return(res.reasonPhrase);
+    }
+      }
 }

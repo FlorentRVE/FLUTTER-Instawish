@@ -24,8 +24,9 @@ final GoRouter router = GoRouter(
     ),
 
     GoRoute(
-      path: '/profil',
+      path: '/profil/:id',
       builder: (BuildContext context, GoRouterState state) {
+        state.pathParameters['id'];
         return const ProfilScreen();
       },
     ),

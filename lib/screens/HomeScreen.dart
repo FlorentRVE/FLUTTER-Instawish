@@ -72,7 +72,7 @@ class HomeScreenState extends State<HomeScreen> {
             
           } else if (snapshot.hasError) {
             // Afficher un message d'erreur si une erreur s'est produite lors de la récupération des données
-            return Center(child: Text('Erreur login'));
+            return Center(child: Text(snapshot.error.toString()));
             
           } else {
             // Utiliser les données récupérées dans le Scaffold
@@ -85,19 +85,23 @@ class HomeScreenState extends State<HomeScreen> {
                 Container(
                   height: 120,
                   decoration: BoxDecoration(color: Colors.grey),
-                  margin: EdgeInsets.only(top: 10),
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
                       for (var user in users) 
-                        Column(
-                          children: [
-                            UserAvatar(userAvatar: user["imageUrl"], bg: true),
-                            Text(
-                              user["username"],
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            context.go('/profil/${user["id"]}');
+                          },
+                          child: Column(
+                            children: [
+                              UserAvatar(userAvatar: user["imageUrl"], bg: true),
+                              Text(
+                                user["username"],
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
                         ),
                     ],
                   ),

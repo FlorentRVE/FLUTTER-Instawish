@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instawish/components/app_bar.dart';
@@ -14,7 +13,7 @@ const ProfilScreen({Key? key}) : super(key: key);
 State<ProfilScreen> createState() => ProfilScreenState();
 }
 
-class ProfilScreenState extends State<ProfilScreen> {
+class ProfilScreenState extends State<ProfilScreen> {  
 
     Future<dynamic> checkToken() async {
 
@@ -31,11 +30,8 @@ class ProfilScreenState extends State<ProfilScreen> {
 
     }
 
-    Future<dynamic> getUserPost() async {
+    Future<dynamic> getUserPost(id) async {
       var token = await Api().getToken();
-      var data = await Api().getMe(token);
-
-      var id = jsonDecode(data)['id'];
       
       var userPost = await Api().getUserPost(token, id);
       var post = jsonDecode(userPost);     
@@ -43,11 +39,8 @@ class ProfilScreenState extends State<ProfilScreen> {
       return post;
     }
 
-    Future<dynamic> getFollowings() async {
+    Future<dynamic> getFollowings(id) async {
       var token = await Api().getToken();
-      var data = await Api().getMe(token);
-
-      var id = jsonDecode(data)['id'];
 
       var followings = await Api().getFollowing(token, id);
       var followingsData = jsonDecode(followings);
@@ -55,11 +48,8 @@ class ProfilScreenState extends State<ProfilScreen> {
       return followingsData;
     }
 
-    Future<dynamic> getFollowers() async {
+    Future<dynamic> getFollowers(id) async {
       var token = await Api().getToken();
-      var data = await Api().getMe(token);
-
-      var id = jsonDecode(data)['id'];
 
       var followers = await Api().getFollowers(token, id);
       var followersData = jsonDecode(followers);
@@ -75,9 +65,9 @@ class ProfilScreenState extends State<ProfilScreen> {
       return users;
     }
 
-    Future<dynamic> getMe() async {
+    Future<dynamic> getUser(id) async {
       var token = await Api().getToken();
-      var data = await Api().getMe(token);
+      var data = await Api().getUser(token, id);
       var me = jsonDecode(data);     
 
       return me;
@@ -85,13 +75,16 @@ class ProfilScreenState extends State<ProfilScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var params = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    var id = params?["id"];    
+
     return Scaffold(
       //////////// AppBar //////////////////
       appBar: MyAppBar(),
 
       //////////// Body //////////////////
       body: FutureBuilder(
-        future: Future.wait([checkToken(), getUserPost(), getUsers(), getMe(), getFollowings(), getFollowers()]),
+        future: Future.wait([checkToken(), getUserPost(id), getUsers(), getUser(id), getFollowings(id), getFollowers(id)]),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
 
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -153,6 +146,25 @@ class ProfilScreenState extends State<ProfilScreen> {
                           ],
                         ),
                 
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          var token = await Api().getToken();
+                          Api().follow(token, profil["id"]);
+                          print(profil["username"] + " followed");
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 20),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Follow",
+                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue, fontSize: 20),
+                              ),
+                            ],
+                          ),
+                          
+                        ),
                       ),
                     ],
                   ),
