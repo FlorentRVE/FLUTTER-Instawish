@@ -25,7 +25,7 @@ class UserAvatar extends StatelessWidget {
             ,
       ) ,
       child: CircleAvatar(
-        backgroundImage: AssetImage("assets/$userAvatar"),
+        backgroundImage: NetworkImage("https://symfony-instawish.formaterz.fr$userAvatar"),
         radius: 35,
       ),
     );

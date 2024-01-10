@@ -3,16 +3,18 @@ import 'package:instawish/components/user_avatar.dart';
 
 class Post extends StatelessWidget {
   final String username;
-  // final String userAvatar;
+  final String userAvatar;
   final String postDescription;
   final String postImage;
+  final String postLike;
 
   const Post({
     Key? key,
     required this.username,
-    // required this.userAvatar,
+    required this.userAvatar,
     required this.postDescription,
     required this.postImage,
+    required this.postLike,
   }) : super(key: key);
 
   @override
@@ -54,7 +56,7 @@ class Post extends StatelessWidget {
                 ),
                 Positioned(
                   left: -10,
-                  child: UserAvatar(userAvatar: "avatar_deux.jpg", bg: true),
+                  child: UserAvatar(userAvatar: userAvatar, bg: true),
                 ),
                 Positioned(
                   top: 25,
@@ -75,7 +77,7 @@ class Post extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-            child: Image.network("https://symfony-instawish.formaterz.fr$postImage"),
+            child: Image.network("https://symfony-instawish.formaterz.fr$postImage", fit: BoxFit.cover,),
           ),
           // description
           Container(
@@ -157,7 +159,10 @@ class Post extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("310 likes", style: TextStyle(color: Colors.black)),
+                      Text(
+                        postLike != "0" ? "$postLike likes" : "0 likes",
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ],
                   ),
                 ),

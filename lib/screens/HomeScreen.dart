@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instawish/components/post.dart';
 import 'package:instawish/components/user_avatar.dart';
 import 'package:instawish/utils/api.dart';
@@ -13,6 +14,21 @@ State<HomeScreen> createState() => HomeScreenState();
 }
 
 class HomeScreenState extends State<HomeScreen> {
+
+    Future<dynamic> checkToken() async {
+
+      var token = await Api().getToken();
+
+      if (token == null) {
+
+        Future.delayed(const Duration(seconds: 1), () {
+
+          context.go('/login');
+
+        });
+      }
+
+    }
 
     Future<dynamic> getPost() async {
       var token = await Api().getToken();
@@ -28,6 +44,14 @@ class HomeScreenState extends State<HomeScreen> {
       var users = jsonDecode(data);     
 
       return users;
+    }
+
+    Future<dynamic> getMe() async {
+      var token = await Api().getToken();
+      var data = await Api().getMe(token);
+      var me = jsonDecode(data);     
+
+      return me;
     }
 
   @override
@@ -56,15 +80,22 @@ class HomeScreenState extends State<HomeScreen> {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: CircleAvatar(
-                backgroundImage: AssetImage("assets/avatar.jpg"),
+              child: IconButton(
+                icon: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      "https://symfony-instawish.formaterz.fr/images/profiles/xddriki-659bd9e1e527f453698280.jpg"),
+                ),
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.transparent), elevation: MaterialStateProperty.all(0), iconSize: MaterialStateProperty.all(0)),
+                onPressed: () {
+                  context.go('/login');
+                },
               ),
             ),
           ]),
 
       //////////// Body //////////////////
       body: FutureBuilder(
-        future: Future.wait([getPost(), getUsers()]),
+        future: Future.wait([checkToken(), getPost(), getUsers(), getMe()]),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
 
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -73,14 +104,14 @@ class HomeScreenState extends State<HomeScreen> {
             
           } else if (snapshot.hasError) {
             // Afficher un message d'erreur si une erreur s'est produite lors de la récupération des données
-            return Center(child: Text('Une erreur s\'est produite.'));
+            return Center(child: Text('Erreur login'));
             
           } else {
             // Utiliser les données récupérées dans le Scaffold
-            var post = snapshot.data[0];
-            var users = snapshot.data[1].values;
-            // print(post);
-            // print(users["username"]);
+            var post = snapshot.data[1];
+            var users = snapshot.data[2].values;
+            var me = snapshot.data[3];
+            print(me);
             return Column(
               children: [
                 //////// stories /////////
@@ -94,7 +125,7 @@ class HomeScreenState extends State<HomeScreen> {
                       for (var user in users) 
                         Column(
                           children: [
-                            UserAvatar(userAvatar: "avatar_deux.jpg", bg: true),
+                            UserAvatar(userAvatar: user["imageUrl"], bg: true),
                             Text(
                               user["username"],
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -117,9 +148,10 @@ class HomeScreenState extends State<HomeScreen> {
                           children: [
                             Post(
                               username: post[i]["createdBy"]["username"],
-                              // userAvatar: post[i]["createdBy"]["imageUrl"],
+                              userAvatar: post[i]["createdBy"]["imageUrl"],
                               postDescription: post[i]["description"],
                               postImage: post[i]["imageUrl"],
+                              postLike: post[i]["likeds"].length.toString(),
                             ),
                           ],
                         ),

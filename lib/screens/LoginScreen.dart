@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
-// import 'package:instawish/screens/HomeScreen.dart';
 import 'package:instawish/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,13 +24,11 @@ class LoginScreenState extends State<LoginScreen> {
     var res = await Api().login(data);
     var token = json.decode(res);
 
-    print(token['token']);
-
     if (res != null) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', token['token']);
       
-      Future.delayed(const Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 1), () { 
         context.go('/');
       });
       
