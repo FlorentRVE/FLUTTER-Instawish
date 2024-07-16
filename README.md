@@ -1,16 +1,45 @@
-# instawish
+# INSTAWISH
 
-A new Flutter project.
+![FLUTTER](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+Exercice de création d'un début de clone Instagram
 
-A few resources to get you started if this is your first Flutter project:
+## Sommaire
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [Aperçu](#aperçu)
+  - [Le projet](#le-projet)
+  - [Screenshot](#screenshot)
+- [Méthode](#méthode)
+  - [Outils](#outils)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Aperçu
+
+### Le projet
+
+Les objectifs du projet :
+
+- Créer un profil
+- Se connecter et gérer son profil
+- Suivre d'autres profils
+- Récupérer les posts des personnes que l'on suit
+- Afficher des profils en mode "stories"
+- Gérer ses posts
+- Gestion des likes
+
+### Screenshot
+
+![screenshot](/Image3.gif)
+
+
+## Méthode
+
+### Compétences acquises
+
+- Découverte FLUTTER
+- Utilisation de FLUTTER avec un backend
+- Utilisation de CRUD
+
+### Outils
+
+- [Flutter](https://flutter.dev/)
