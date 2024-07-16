@@ -4,6 +4,7 @@
 
 
 Exercice de création d'un début de clone Instagram
+Téléchargez le fichier "Flutter - Instawish.docx" pour un récapitulatif des jours de code sur ce projet.
 
 ## Sommaire
 
